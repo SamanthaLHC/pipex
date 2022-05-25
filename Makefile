@@ -6,7 +6,7 @@
 #    By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/12 14:47:00 by sle-huec          #+#    #+#              #
-#    Updated: 2022/05/12 14:48:40 by sle-huec         ###   ########.fr        #
+#    Updated: 2022/05/25 14:04:23 by sle-huec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CFLAGS = -MMD -Wall -Wextra -Werror -g3
 CC = cc
 SRCS = 		$(addprefix $(SRCS_PATH), \
 				pipex.c \
+				path.c \
 			)
 INCLUDES = -I./\
 		-I./ft_libft_printf\

@@ -6,7 +6,7 @@
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/18 14:32:23 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/05/25 15:15:34 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int main (int ac, char **av, char **env)
 {
+	(void)av;
 	if (ac != 5)
-		perror("pipex usage: file1 cmd1 | cmd2 file 2");
-		write(2, av[1], ft_strlen(av[1]));
+		ft_putstr_fd("Error\npipex usage: file1 cmd1 | cmd2 file2", 2);
+	get_path(env);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/18 14:29:25 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/05/25 18:03:40 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,50 @@ int	get_fd(char **input)
 
 	fd1 = open(input[1], O_RDONLY);
 	fd2 = open(input[4], O_WRONLY | O_CREAT | O_TRUNC, 644);
-	// open les files pour avoir les fd
-	// mettre les fd dans un ta  b ?
-	// gestion d erreur sii le fichier 1 n existe pas ou si le files 
-	//ou si le file2 a deja des droits (autre que 644)
+	if (fd1 == -1 || fd2 == -1)
+		perror("issue with open");
+
+
+	// mettre les fd dans un ta b ?
 	
+	//!!!!!!!!!!!!!!!!!!!!
+	// gestion d erreur si le fichier 1 n existe pas ou si le files 
+
+
+	//!!!!!!!!!!!!!!!!!!!!!!
+	//ou si le file2 a deja des droits (autre que 644) voire access
+	//!!!!!!!!!!!!!!!!!!!!	
 }
 
-char	**get_path()
+char	**get_path(char **envp)
 {
-	//parcourir env pour recup path avec strcmp
-	//split tous les  : pour recuperer dans un tab de tab les segments des differents path
-	// retourner ce tab
+	int	i;
+	char	*path;
+	char	**tab_path;
+		
+	i = 0;
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
+		i++;	
+	path = envp[i];
+	tab_path = ft_split(path, ':');
+	return (tab_path);
 }
 
-char	*exec_cmd()
+char	*get_exec_cmd()
 {
-	//parcourir le tableau de paths possible jusqua tomber sur cellui compatib le avec la cmd
+	char	*path;
+	char	*exec_path;
+	int		i;
+
+	i = 0;
+	path = get_path;
+	while(path[i])
+	{
+		exec_path = ft_strjoin(exec_path[i], "/");
+		//freeeeeeeee
+	}
+	
+	//parcourir le tableau de paths possible jusqua tomber sur celui compatible avec la cmd
 	//concat avec / le path et la cmd
 	// return la ligne de cmd executable
 }
