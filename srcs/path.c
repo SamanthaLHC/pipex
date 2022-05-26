@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/25 18:03:40 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/05/26 17:07:34 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+//FREE LES MALLOCS
 
 int	get_fd(char **input)
 {
@@ -20,49 +22,100 @@ int	get_fd(char **input)
 	fd1 = open(input[1], O_RDONLY);
 	fd2 = open(input[4], O_WRONLY | O_CREAT | O_TRUNC, 644);
 	if (fd1 == -1 || fd2 == -1)
+	{
+		ft_printf("%d\n", errno);
 		perror("issue with open");
+		if (fd1 != -1)
+			close(fd1);
+		if (fd2 != -1)
+			close(fd2);
+		return (-1);
+	}
+	return (0);
 
-
-	// mettre les fd dans un ta b ?
-	
+	// mettre les fd dans un tab ?
 	//!!!!!!!!!!!!!!!!!!!!
-	// gestion d erreur si le fichier 1 n existe pas ou si le files 
-
-
-	//!!!!!!!!!!!!!!!!!!!!!!
-	//ou si le file2 a deja des droits (autre que 644) voire access
-	//!!!!!!!!!!!!!!!!!!!!	
+	//gerer erreur si le file2 a deja des droits (autre que 644) voir access
+	//!!!!!!!!!!!!!!!!!!!!
 }
 
 char	**get_path(char **envp)
 {
-	int	i;
+	int		i;
 	char	*path;
-	char	**tab_path;
-		
+	char	**tab_paths;
+
 	i = 0;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
-		i++;	
+		i++;
+	if (!envp[i])
+		return (NULL);
 	path = envp[i];
-	tab_path = ft_split(path, ':');
-	return (tab_path);
+	tab_paths = ft_split(path, ':');
+	if (!tab_paths)
+		return (NULL);
+	return (tab_paths);
 }
 
-char	*get_exec_cmd()
+char	*error_paths(char *input, char **envp)
 {
-	char	*path;
-	char	*exec_path;
 	int		i;
+	char	**tab_paths;
+	char	*exec_path;
 
 	i = 0;
-	path = get_path;
-	while(path[i])
+	tab_paths = get_path(envp);
+	if (!tab_paths)
+		return (NULL);
+	while (tab_paths && tab_paths[i])
 	{
 		exec_path = ft_strjoin(exec_path[i], "/");
-		//freeeeeeeee
+		if (!exec_path)
+			return (NULL);
+		exec_path = ft_strjoin(exec_path, input[2]);
+		if (!exec_path)
+			return (NULL);
+		if (access(exec_path, F_OK) == 0)
+		{
+			if (access(exec_path, X_OK) == -1)
+				return (ft_printf("permission denied: %s\n", input[2]));
+		}
+		i++;
 	}
-	
-	//parcourir le tableau de paths possible jusqua tomber sur celui compatible avec la cmd
-	//concat avec / le path et la cmd
-	// return la ligne de cmd executable
+	return (ft_printf("command not found: %s\n", input[2]));
 }
+
+char	*check_and_get_exec_path(char *input, char **envp)
+{	
+	int		i;
+	char	**tab_paths;
+	char	*exec_path;
+
+	i = 0;
+	tab_paths = get_path(envp);
+	if (!tab_paths)
+		return (NULL);
+	while (tab_paths && tab_paths[i])
+	{
+		exec_path = ft_strjoin(exec_path[i], "/");
+		if (!exec_path)
+			return (NULL);
+		exec_path = ft_strjoin(exec_path, input[2]);
+		if (!exec_path)
+			return (NULL);
+		if (access(exec_path, F_OK | X_OK) == 0)
+			return (exec_path);
+		i++;
+	}
+	return (error_paths(tab_paths, envp));
+}
+
+/*
+Pour tester les paths valides: ouvrir un terminal 
+faire export PATH=*inserer path*
+creer des dir avec:
+path mais aucun droits
+ aucun chemin
+chemin invalide
+cmd ./dir
+*/
