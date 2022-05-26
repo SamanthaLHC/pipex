@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/26 17:07:34 by sam              ###   ########.fr       */
+/*   Updated: 2022/05/26 17:43:58 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	*error_paths(char *input, char **envp)
 	int		i;
 	char	**tab_paths;
 	char	*exec_path;
+	char	*tmp;
 
 	i = 0;
 	tab_paths = get_path(envp);
@@ -69,17 +70,28 @@ char	*error_paths(char *input, char **envp)
 		return (NULL);
 	while (tab_paths && tab_paths[i])
 	{
-		exec_path = ft_strjoin(exec_path[i], "/");
-		if (!exec_path)
+		tmp = ft_strjoin(exec_path[i], "/");
+		if (!tmp)
+		{
+			free (tab_paths);
 			return (NULL);
-		exec_path = ft_strjoin(exec_path, input[2]);
+		}
+		exec_path = ft_strjoin(tmp, input[2]);
 		if (!exec_path)
+		{
+			free(tmp);
+			free(tab_paths);
 			return (NULL);
+		}
 		if (access(exec_path, F_OK) == 0)
 		{
 			if (access(exec_path, X_OK) == -1)
+			{
+				free (exec_path);
 				return (ft_printf("permission denied: %s\n", input[2]));
+			}
 		}
+		free (exec_path);
 		i++;
 	}
 	return (ft_printf("command not found: %s\n", input[2]));
@@ -90,6 +102,7 @@ char	*check_and_get_exec_path(char *input, char **envp)
 	int		i;
 	char	**tab_paths;
 	char	*exec_path;
+	char	*tmp;
 
 	i = 0;
 	tab_paths = get_path(envp);
@@ -97,14 +110,24 @@ char	*check_and_get_exec_path(char *input, char **envp)
 		return (NULL);
 	while (tab_paths && tab_paths[i])
 	{
-		exec_path = ft_strjoin(exec_path[i], "/");
-		if (!exec_path)
+		tmp = ft_strjoin(tmp[i], "/");
+		if (!tmp)
+		{
+			free (tab_paths);
 			return (NULL);
+		}
 		exec_path = ft_strjoin(exec_path, input[2]);
 		if (!exec_path)
+		{
+			free(tmp);
+			free(tab_paths);
 			return (NULL);
+		}
 		if (access(exec_path, F_OK | X_OK) == 0)
+		{
+			free(tab_paths);
 			return (exec_path);
+		}
 		i++;
 	}
 	return (error_paths(tab_paths, envp));
