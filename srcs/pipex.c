@@ -6,13 +6,13 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/26 12:00:55 by sam              ###   ########.fr       */
+/*   Updated: 2022/05/27 15:34:07 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int main (int ac, char **av, char **env)
+int main(int ac, char **av, char **env)
 {
 	(void)av;
 	if (ac != 5)

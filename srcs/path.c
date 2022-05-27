@@ -6,13 +6,11 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/27 13:06:13 by sam              ###   ########.fr       */
+/*   Updated: 2022/05/27 15:31:53 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-//FREE LES MALLOCS
 
 int	get_fd(char **input)
 {
@@ -57,53 +55,42 @@ char	**get_path(char **envp)
 	return (tab_paths);
 }
 
-char	*error_paths(char **input, char **envp)
+void	error_paths(char **tab_paths, char *input)
 {
 	int		i;
-	char	**tab_paths;
 	char	*exec_path;
 
 	i = 0;
-	tab_paths = get_path(envp);
-	if (!tab_paths)
-		return (NULL);
 	while (tab_paths && tab_paths[i])
 	{
-		exec_path = ft_strjoin(tab_paths[i], "/", input[2]);
+		exec_path = ft_strjoin(tab_paths[i], "/", input);
 		if (!exec_path)
-		{
-			free (tab_paths);
-			return (NULL);
-		}
+			return ;
 		if (access(exec_path, F_OK) == 0)
 		{
 			if (access(exec_path, X_OK) == -1)
 			{
 				free (exec_path);
-				free (tab_paths);
-				return (("permission denied: %s\n", input[2]));
+				ft_printf("permission denied: %s\n", input);
+				return ;
 			}
 		}
 		free (exec_path);
 		i++;
 	}
-	free (tab_paths);
-	return (ft_printf("command not found: %s\n", input[2]));
+	ft_printf("command not found: %s\n", input);
+	return ;
 }
 
-char	*check_and_get_exec_path(char *input, char **envp)
-{	
+char	*check_exec_path(char **tab_paths, char *input)
+{
 	int		i;
-	char	**tab_paths;
 	char	*exec_path;
 
 	i = 0;
-	tab_paths = get_path(envp);
-	if (!tab_paths)
-		return (NULL);
 	while (tab_paths && tab_paths[i])
 	{
-		exec_path = ft_strjoin(exec_path[i], "/", input[2]);
+		exec_path = ft_strjoin(tab_paths[i], "/", input);
 		if (!exec_path)
 		{
 			free (tab_paths);
@@ -116,7 +103,20 @@ char	*check_and_get_exec_path(char *input, char **envp)
 		}
 		i++;
 	}
-	return (error_paths(tab_paths, envp));
+	return (NULL);
+}
+
+char	*get_exec_path(char *input, char **envp)
+{	
+	char	**tab_paths;
+
+	tab_paths = get_path(envp);
+	if (!tab_paths)
+		return (NULL);
+	check_exec_path(tab_paths, input);
+	error_paths(tab_paths, input);
+	free(tab_paths);
+	return (NULL);
 }
 
 /*
