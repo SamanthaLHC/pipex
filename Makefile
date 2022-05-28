@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+         #
+#    By: sam <sam@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/12 14:47:00 by sle-huec          #+#    #+#              #
-#    Updated: 2022/05/25 14:04:23 by sle-huec         ###   ########.fr        #
+#    Updated: 2022/05/28 16:46:31 by sam              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CC = cc
 SRCS = 		$(addprefix $(SRCS_PATH), \
 				pipex.c \
 				path.c \
+				utils.c \
 			)
 INCLUDES = -I./\
 		-I./ft_libft_printf\

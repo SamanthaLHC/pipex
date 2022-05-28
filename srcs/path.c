@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/27 15:31:53 by sam              ###   ########.fr       */
+/*   Updated: 2022/05/28 16:45:04 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	error_paths(char **tab_paths, char *input)
 		free (exec_path);
 		i++;
 	}
+	ft_printf("fail access\n");
 	ft_printf("command not found: %s\n", input);
 	return ;
 }
@@ -92,31 +93,30 @@ char	*check_exec_path(char **tab_paths, char *input)
 	{
 		exec_path = ft_strjoin(tab_paths[i], "/", input);
 		if (!exec_path)
-		{
-			free (tab_paths);
 			return (NULL);
-		}
 		if (access(exec_path, F_OK | X_OK) == 0)
 		{
-			free(tab_paths);
+			ft_printf("good path returned\n");
 			return (exec_path);
 		}
+		free (exec_path);
 		i++;
 	}
+	error_paths(tab_paths, input);
 	return (NULL);
 }
 
 char	*get_exec_path(char *input, char **envp)
 {	
 	char	**tab_paths;
+	char	*exec_path;
 
 	tab_paths = get_path(envp);
 	if (!tab_paths)
 		return (NULL);
-	check_exec_path(tab_paths, input);
-	error_paths(tab_paths, input);
-	free(tab_paths);
-	return (NULL);
+	exec_path = check_exec_path(tab_paths, input);
+	free_split(tab_paths);
+	return (exec_path);
 }
 
 /*
