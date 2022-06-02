@@ -6,36 +6,11 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/28 16:45:04 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/02 15:00:35 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-int	get_fd(char **input)
-{
-	int	fd1;
-	int	fd2;
-
-	fd1 = open(input[1], O_RDONLY);
-	fd2 = open(input[4], O_WRONLY | O_CREAT | O_TRUNC, 644);
-	if (fd1 == -1 || fd2 == -1)
-	{
-		ft_printf("%d\n", errno);
-		perror("issue with open");
-		if (fd1 != -1)
-			close(fd1);
-		if (fd2 != -1)
-			close(fd2);
-		return (-1);
-	}
-	return (0);
-
-	// mettre les fd dans un tab ?
-	//!!!!!!!!!!!!!!!!!!!!
-	//gerer erreur si le file2 a deja des droits (autre que 644) voir access
-	//!!!!!!!!!!!!!!!!!!!!
-}
 
 char	**get_path(char **envp)
 {

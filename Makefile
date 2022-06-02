@@ -6,7 +6,7 @@
 #    By: sam <sam@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/12 14:47:00 by sle-huec          #+#    #+#              #
-#    Updated: 2022/05/28 16:46:31 by sam              ###   ########.fr        #
+#    Updated: 2022/06/02 11:08:22 by sam              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS = 		$(addprefix $(SRCS_PATH), \
 				pipex.c \
 				path.c \
 				utils.c \
+				exec.c \
 			)
 INCLUDES = -I./\
 		-I./ft_libft_printf\

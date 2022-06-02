@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:29:57 by sam               #+#    #+#             */
-/*   Updated: 2022/05/28 16:46:17 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/02 19:51:23 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ void	free_split(char	**tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	if (tab != NULL && tab[i])
 	{
-		free(tab[i]);
+		while (tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+		free(tab);
 	}
-	free(tab);
 }
