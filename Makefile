@@ -6,7 +6,7 @@
 #    By: sam <sam@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/12 14:47:00 by sle-huec          #+#    #+#              #
-#    Updated: 2022/06/02 11:08:22 by sam              ###   ########.fr        #
+#    Updated: 2022/06/04 00:12:49 by sam              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ INCLUDES = -I./\
 
 SRCS_PATH = ./srcs/
 OBJ_PATH = ./objs/
-LIBFT = ./ft_libft_printf/libftprintf.a	
+LIBFT = ./ft_libft_printf/libft/libft.a
+LIBFT_PRINTF = ./ft_libft_printf/libftprintf.a
 
 
 OBJ = $(SRCS:$(SRCS_PATH)%.c=$(OBJ_PATH)%.o)
@@ -35,10 +36,10 @@ DEP = $(SRCS:$(SRCS_PATH)%.c=$(OBJ_PATH)%.d)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(OBJ) -o $(NAME) $(LIBFT)
+$(NAME): $(OBJ) $(LIBFT_PRINTF)
+	$(CC) $(OBJ) -o $(NAME) $(LIBFT_PRINTF)
 
-${LIBFT}:
+${LIBFT_PRINTF}:
 		make -C ./ft_libft_printf all
 
 $(OBJ_PATH)%.o: $(SRCS_PATH)%.c 
@@ -52,6 +53,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(LIBFT_PRINTF)
 	rm -f $(LIBFT)
 
 re: fclean

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/03 15:21:25 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/04 00:21:31 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ char	*check_exec_path(char **tab_paths, char *input)
 		if (!exec_path)
 			return (NULL);
 		if (access(exec_path, F_OK | X_OK) == 0)
-		{
-			ft_printf("good path returned\n");
 			return (exec_path);
-		}
 		free (exec_path);
 		i++;
 	}

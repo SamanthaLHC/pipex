@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/03 17:51:13 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/04 00:25:06 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	get_fd(char **input, t_utils *utils)
 int	main(int ac, char **av, char **env)
 {
 	t_utils	utils;
-	
+
 	if (ac != 5)
 	{
 		ft_putstr_fd("Error\npipex usage: file1 cmd1 | cmd2 file2\n", 2);

@@ -6,9 +6,11 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:40:08 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/05/27 20:02:08 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/04 00:00:22 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2, char const *s3)
 {
