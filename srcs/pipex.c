@@ -6,7 +6,7 @@
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/03 17:01:12 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/03 17:36:22 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,19 @@ int	get_fd(char **input, t_utils *utils)
 
 int	main(int ac, char **av, char **env)
 {
-	t_utils	*utils;
+	t_utils	utils;
 	
-	utils = NULL;
 	if (ac != 5)
 		ft_putstr_fd("Error\npipex usage: file1 cmd1 | cmd2 file2\n", 2);
-	get_fd(av, utils);
-	utils->cmd1_options = get_options_cmd(av[2]);
-	utils->exec_path_cmd1 = get_exec_path(utils->cmd1_options[0], env);
-	utils->cmd2_options = get_options_cmd(av[3]);
-	utils->exec_path_cmd2 = get_exec_path(utils->cmd2_options[0], env);
-	execute_cmd_line(utils, env);
-	free_split(utils->cmd1_options);
-	free_split(utils->cmd2_options);
-	free (utils->exec_path_cmd1);
-	free (utils->exec_path_cmd2);
-	return (utils->status);
+	get_fd(av, &utils);
+	utils.cmd1_options = get_options_cmd(av[2]);
+	utils.exec_path_cmd1 = get_exec_path(utils.cmd1_options[0], env);
+	utils.cmd2_options = get_options_cmd(av[3]);
+	utils.exec_path_cmd2 = get_exec_path(utils.cmd2_options[0], env);
+	execute_cmd_line(&utils, env);
+	free_split(utils.cmd1_options);
+	free_split(utils.cmd2_options);
+	free (utils.exec_path_cmd1);
+	free (utils.exec_path_cmd2);
+	return (utils.status);
 }
