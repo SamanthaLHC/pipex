@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:29:57 by sam               #+#    #+#             */
-/*   Updated: 2022/06/02 19:51:23 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/03 15:47:05 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,12 @@ void	free_split(char	**tab)
 		}
 		free(tab);
 	}
+}
+
+void	init_struct_utils(t_utils *utils)
+{
+	utils->exec_path_cmd1 = NULL;
+	utils->exec_path_cmd2 = NULL;
+	utils->cmd1_options = NULL;
+	utils->cmd2_options = NULL;
 }

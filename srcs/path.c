@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/02 15:00:35 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/03 15:21:25 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,16 @@ char	*check_exec_path(char **tab_paths, char *input)
 	}
 	error_paths(tab_paths, input);
 	return (NULL);
+}
+
+char	**get_options_cmd(char	*input)
+{
+	char	**options;
+
+	options = ft_split(input, ' ');
+	if (!options)
+		return (NULL);
+	return (options);
 }
 
 char	*get_exec_path(char *input, char **envp)

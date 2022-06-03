@@ -3,56 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:08:09 by sam               #+#    #+#             */
-/*   Updated: 2022/06/02 20:59:23 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/03 15:40:44 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	fork_first_child(t_utils *utils)
+int	proc_first_child(t_utils *utils, char **env)
 {
-	dup2(utils->fd1, STDOUT_FILENO);
-	close(fd[0])
-	close(fd[1])
-	execve(utils->exec_path, ,);
-	return 0;
+	close(utils->fd_file2);
+	close(utils->fd_pipe[0]);
+	if (dup2(utils->fd_file1, STDIN_FILENO) == -1)
+		perror("dup2 issue");
+	if (dup2(utils->fd_pipe[1], STDOUT_FILENO) == -1)
+		perror("dup2 issue");
+	close(utils->fd_pipe[1]);
+	close(utils->fd_file1);
+	if (execve(utils->exec_path_cmd1, utils->cmd1_options, env) == -1);
+	{
+		perror("execve issue");
+		exit(1);
+	}
 }
 
-int	fork_second_child()
+int	proc_second_child(t_utils *utils, char **env)
 {
-	int pid2 = fork();
-	if (pid2 < 0)
-	return 1
-	if pid2 == 0
-	dup2(fd[0]), STDIN_FILENO);
-	close(fd[0])
-	close(fd[1])
-	execve();
+	close(utils->fd_file1);
+	close(utils->fd_pipe[1]);
+	if (dup2(utils->fd_file2, STDOUT_FILENO) == -1)
+		perror("dup2 issue");
+	if (dup2(utils->fd_pipe[0], STDIN_FILENO) == -1)
+		perror("dup2 issue");
+	close(utils->fd_pipe[0]);
+	close(utils->fd_file2);
+	if (execve(utils->exec_path_cmd2, utils->cmd2_options, env) == -1);
+	{
+		perror("execve issue");
+		exit(1);
+	}
 }
 
-void	execute_cmd_line(t_utils *utils, char *cmd1, char *cmd2)
+void	execute_cmd_line(t_utils *utils, char **env)
 {
-	int		fd[2];
 	pid_t	first_child;
 	pid_t	second_child;
 
-	if (pipe(fd) == -1)
+	if (pipe(utils->fd_pipe) == -1)
 		return (perror("pipe issue"));
 	first_child = fork();
 	if (first_child == -1)
 		return (perror("fork issue"));
 	if (first_child == 0)
-		fork_first_child();
+		proc_first_child(&utils, env);
 	second_child = fork();
 	if (second_child == -1)
 		return (perror("fork issue"));
 	if (second_child == 0)
-		fork_second_child();
-	close(fd[0]);
-	close(fd[1]);
+		proc_second_child(&utils, env);
+	close(utils->fd_pipe[0]);
+	close(utils->fd_pipe[1]);
 	waitpid(first_child, NULL, 0);
-	waitpid(second_child, NULL, 0);
+	waitpid(second_child, &utils->status, 0);
 }
