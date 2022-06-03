@@ -6,7 +6,7 @@
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/03 15:49:14 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/03 17:01:12 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	main(int ac, char **av, char **env)
 	t_utils	*utils;
 	
 	utils = NULL;
-	init_struct_utils(utils);
 	if (ac != 5)
 		ft_putstr_fd("Error\npipex usage: file1 cmd1 | cmd2 file2\n", 2);
 	get_fd(av, utils);

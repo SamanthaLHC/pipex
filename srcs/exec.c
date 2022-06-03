@@ -6,13 +6,13 @@
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:08:09 by sam               #+#    #+#             */
-/*   Updated: 2022/06/03 15:40:44 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/03 16:00:08 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	proc_first_child(t_utils *utils, char **env)
+void	proc_first_child(t_utils *utils, char **env)
 {
 	close(utils->fd_file2);
 	close(utils->fd_pipe[0]);
@@ -22,14 +22,14 @@ int	proc_first_child(t_utils *utils, char **env)
 		perror("dup2 issue");
 	close(utils->fd_pipe[1]);
 	close(utils->fd_file1);
-	if (execve(utils->exec_path_cmd1, utils->cmd1_options, env) == -1);
+	if (execve(utils->exec_path_cmd1, utils->cmd1_options, env) == -1)
 	{
 		perror("execve issue");
 		exit(1);
 	}
 }
 
-int	proc_second_child(t_utils *utils, char **env)
+void	proc_second_child(t_utils *utils, char **env)
 {
 	close(utils->fd_file1);
 	close(utils->fd_pipe[1]);
@@ -39,7 +39,7 @@ int	proc_second_child(t_utils *utils, char **env)
 		perror("dup2 issue");
 	close(utils->fd_pipe[0]);
 	close(utils->fd_file2);
-	if (execve(utils->exec_path_cmd2, utils->cmd2_options, env) == -1);
+	if (execve(utils->exec_path_cmd2, utils->cmd2_options, env) == -1)
 	{
 		perror("execve issue");
 		exit(1);
@@ -57,12 +57,12 @@ void	execute_cmd_line(t_utils *utils, char **env)
 	if (first_child == -1)
 		return (perror("fork issue"));
 	if (first_child == 0)
-		proc_first_child(&utils, env);
+		proc_first_child(utils, env);
 	second_child = fork();
 	if (second_child == -1)
 		return (perror("fork issue"));
 	if (second_child == 0)
-		proc_second_child(&utils, env);
+		proc_second_child(utils, env);
 	close(utils->fd_pipe[0]);
 	close(utils->fd_pipe[1]);
 	waitpid(first_child, NULL, 0);
