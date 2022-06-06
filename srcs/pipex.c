@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/06 15:25:52 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:30:22 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	free_exec_path(t_utils *utils)
+{
+	free_split(utils->cmd1_options);
+	free_split(utils->cmd2_options);
+	free (utils->exec_path_cmd1);
+	free (utils->exec_path_cmd2);
+	return (0);
+}
 
 void	error_file(char *input, t_utils *utils)
 {
@@ -49,12 +58,16 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	utils.cmd1_options = get_options_cmd(av[2]);
 	utils.exec_path_cmd1 = get_exec_path(utils.cmd1_options[0], env);
+	if (!utils.exec_path_cmd1)
+		return (free_exec_path(&utils));
 	utils.cmd2_options = get_options_cmd(av[3]);
 	utils.exec_path_cmd2 = get_exec_path(utils.cmd2_options[0], env);
+	if (!utils.exec_path_cmd2)
+	{
+		free_exec_path(&utils);
+		return (1);
+	}
 	execute_cmd_line(&utils, env);
-	free_split(utils.cmd1_options);
-	free_split(utils.cmd2_options);
-	free (utils.exec_path_cmd1);
-	free (utils.exec_path_cmd2);
+	free_exec_path(&utils);
 	return (utils.status);
 }

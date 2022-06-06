@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/06 12:22:21 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/06 20:12:54 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,16 @@ void	error_paths(char **tab_paths, char *input)
 			if (access(exec_path, X_OK) == -1)
 			{
 				free (exec_path);
-				perror(input);
+				ft_putstr_fd("Permission denied: ", 2);
+				write(2, input, ft_strlen(input));
 				return ;
 			}
 		}
 		free (exec_path);
 		i++;
 	}
-	perror(input);
+	ft_putstr_fd("Command not found: ", 2);
+	write(2, input, ft_strlen(input));
 	return ;
 }
 
