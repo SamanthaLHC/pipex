@@ -6,7 +6,7 @@
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/06 14:22:08 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/06 15:25:52 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	error_file(char *input, t_utils *utils)
 
 int	get_fd(char **input, t_utils *utils)
 {
+	utils->fd_file1 = 0;
+	utils->fd_file2 = 0;
 	utils->fd_file1 = open(input[1], O_RDONLY);
 	if (utils->fd_file1 == -1)
 		error_file(input[1], utils);
