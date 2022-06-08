@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/06 20:30:22 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/08 14:39:28 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ int	free_exec_path(t_utils *utils)
 	free_split(utils->cmd2_options);
 	free (utils->exec_path_cmd1);
 	free (utils->exec_path_cmd2);
+	return (0);
+}
+
+int	free_exec_path_error(t_utils *utils)
+{
+	free_split(utils->cmd1_options);
+	free_split(utils->cmd2_options);
+	free (utils->exec_path_cmd1);
+	free (utils->exec_path_cmd2);
+	ft_putstr_fd("Command not found\n", 2);
 	return (0);
 }
 
@@ -49,6 +59,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_utils	utils;
 
+	init_path(&utils);
 	if (ac != 5)
 	{
 		ft_putstr_fd("Error\npipex usage: file1 cmd1 | cmd2 file2\n", 2);
@@ -59,14 +70,11 @@ int	main(int ac, char **av, char **env)
 	utils.cmd1_options = get_options_cmd(av[2]);
 	utils.exec_path_cmd1 = get_exec_path(utils.cmd1_options[0], env);
 	if (!utils.exec_path_cmd1)
-		return (free_exec_path(&utils));
+		return (free_exec_path_error(&utils));
 	utils.cmd2_options = get_options_cmd(av[3]);
 	utils.exec_path_cmd2 = get_exec_path(utils.cmd2_options[0], env);
 	if (!utils.exec_path_cmd2)
-	{
-		free_exec_path(&utils);
-		return (1);
-	}
+		return (free_exec_path_error(&utils));
 	execute_cmd_line(&utils, env);
 	free_exec_path(&utils);
 	return (utils.status);

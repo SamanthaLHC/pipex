@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/06 20:12:54 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/08 13:28:57 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**get_path(char **envp)
 		i++;
 	if (!envp[i])
 		return (NULL);
-	path = envp[i];
+	path = envp[i] + 5;
 	tab_paths = ft_split(path, ':');
 	if (!tab_paths)
 		return (NULL);
@@ -94,10 +94,17 @@ char	*get_exec_path(char *input, char **envp)
 	char	**tab_paths;
 	char	*exec_path;
 
+	if (!envp)
+		return (NULL);
 	tab_paths = get_path(envp);
 	if (!tab_paths)
 		return (NULL);
 	exec_path = check_exec_path(tab_paths, input);
+	if (!exec_path)
+	{
+		free_split(tab_paths);
+		return (NULL);
+	}
 	free_split(tab_paths);
 	return (exec_path);
 }
