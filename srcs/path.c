@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/08 23:00:08 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/09 00:00:21 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ char	*get_exec_path(char *input, char **envp)
 		exec_path = check_exec_path(tab_paths, input);
 	}
 	else
-	{
-		exec_path = input;
-	}
+		exec_path = ft_strdup(input);
 	if (!exec_path)
 	{
 		free_split(tab_paths);
