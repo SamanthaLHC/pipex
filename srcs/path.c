@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:50:04 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/08 13:28:57 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/08 23:00:08 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,13 @@ void	error_paths(char **tab_paths, char *input)
 				free (exec_path);
 				ft_putstr_fd("Permission denied: ", 2);
 				write(2, input, ft_strlen(input));
+				write(2, "\n", 1);
 				return ;
 			}
 		}
 		free (exec_path);
 		i++;
 	}
-	ft_putstr_fd("Command not found: ", 2);
-	write(2, input, ft_strlen(input));
 	return ;
 }
 
@@ -94,12 +93,19 @@ char	*get_exec_path(char *input, char **envp)
 	char	**tab_paths;
 	char	*exec_path;
 
-	if (!envp)
-		return (NULL);
-	tab_paths = get_path(envp);
-	if (!tab_paths)
-		return (NULL);
-	exec_path = check_exec_path(tab_paths, input);
+	tab_paths = NULL;
+	exec_path = NULL;
+	if (ft_strchr(input, '/') == -1)
+	{
+		tab_paths = get_path(envp);
+		if (!tab_paths)
+			return (NULL);
+		exec_path = check_exec_path(tab_paths, input);
+	}
+	else
+	{
+		exec_path = input;
+	}
 	if (!exec_path)
 	{
 		free_split(tab_paths);

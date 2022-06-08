@@ -6,7 +6,7 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:51:11 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/08 14:15:25 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/08 23:18:06 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <fcntl.h>
 # include <string.h>
 # include <errno.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -44,10 +44,13 @@ typedef struct s_utils
 /* ************************************************************************** */
 void	free_split(char	**tab);
 void	init_path(t_utils *utils);
+int		free_exec_path(t_utils *utils);
+void	print_error(char *input);
 
 /* ************************************************************************** */
 /*    exec.c                                                                  */
 /* ************************************************************************** */
+int		exec_manual_path(t_utils *utils, char *av);
 void	proc_first_child(t_utils *utils, char **env);
 void	proc_second_child(t_utils *utils, char **env);
 void	execute_cmd_line(t_utils *utils, char **env);

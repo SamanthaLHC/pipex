@@ -6,29 +6,22 @@
 /*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/08 14:39:28 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/08 23:20:23 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	free_exec_path(t_utils *utils)
+void	handle_cmd1(t_utils *utils, char *av, char **env)
 {
-	free_split(utils->cmd1_options);
-	free_split(utils->cmd2_options);
-	free (utils->exec_path_cmd1);
-	free (utils->exec_path_cmd2);
-	return (0);
+	utils->cmd1_options = get_options_cmd(av);
+	utils->exec_path_cmd1 = get_exec_path(utils->cmd1_options[0], env);
 }
 
-int	free_exec_path_error(t_utils *utils)
+void	handle_cmd2(t_utils *utils, char *av, char **env)
 {
-	free_split(utils->cmd1_options);
-	free_split(utils->cmd2_options);
-	free (utils->exec_path_cmd1);
-	free (utils->exec_path_cmd2);
-	ft_putstr_fd("Command not found\n", 2);
-	return (0);
+	utils->cmd2_options = get_options_cmd(av);
+	utils->exec_path_cmd2 = get_exec_path(utils->cmd2_options[0], env);
 }
 
 void	error_file(char *input, t_utils *utils)
@@ -67,14 +60,18 @@ int	main(int ac, char **av, char **env)
 	}
 	if (get_fd(av, &utils) == -1)
 		return (1);
-	utils.cmd1_options = get_options_cmd(av[2]);
-	utils.exec_path_cmd1 = get_exec_path(utils.cmd1_options[0], env);
+	handle_cmd1(&utils, av[2], env);
 	if (!utils.exec_path_cmd1)
-		return (free_exec_path_error(&utils));
-	utils.cmd2_options = get_options_cmd(av[3]);
-	utils.exec_path_cmd2 = get_exec_path(utils.cmd2_options[0], env);
+	{
+		print_error(utils.cmd1_options[0]);
+		return (free_exec_path(&utils));
+	}
+	handle_cmd2(&utils, av[3], env);
 	if (!utils.exec_path_cmd2)
-		return (free_exec_path_error(&utils));
+	{
+		print_error(utils.cmd2_options[0]);
+		return (free_exec_path(&utils));
+	}
 	execute_cmd_line(&utils, env);
 	free_exec_path(&utils);
 	return (utils.status);
