@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:29:57 by sam               #+#    #+#             */
-/*   Updated: 2022/06/08 23:17:35 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/09 17:45:55 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	free_split(char	**tab)
 
 void	init_path(t_utils *utils)
 {
+	utils->fd_file1 = -1;
+	utils->fd_file2 = -1;
+	utils->fd_pipe[0] = -1;
+	utils->fd_pipe[1] = -1;
 	utils->cmd1_options = NULL;
 	utils->cmd2_options = NULL;
 	utils->exec_path_cmd1 = NULL;
@@ -40,9 +44,21 @@ int	free_exec_path(t_utils *utils)
 {
 	free_split(utils->cmd1_options);
 	free_split(utils->cmd2_options);
-	free (utils->exec_path_cmd1);
-	free (utils->exec_path_cmd2);
+	free(utils->exec_path_cmd1);
+	free(utils->exec_path_cmd2);
 	return (0);
+}
+
+void	close_fd(t_utils *utils)
+{
+	if (utils->fd_file1 <= 0)
+		close(utils->fd_file1);
+	if (utils->fd_file2 <= 0)
+		close(utils->fd_file2);
+	if (utils->fd_pipe[0] <= 0)
+		close(utils->fd_pipe[0]);
+	if (utils->fd_pipe[1])
+		close(utils->fd_pipe[1]);
 }
 
 void	print_error(char *input)

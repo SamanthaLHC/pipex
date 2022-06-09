@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:51:11 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/08 23:18:06 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/09 17:21:22 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_utils
 void	free_split(char	**tab);
 void	init_path(t_utils *utils);
 int		free_exec_path(t_utils *utils);
+void	close_fd(t_utils *utils);
 void	print_error(char *input);
 
 /* ************************************************************************** */

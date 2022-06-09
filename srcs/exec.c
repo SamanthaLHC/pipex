@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:08:09 by sam               #+#    #+#             */
-/*   Updated: 2022/06/08 23:10:07 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/09 17:45:24 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,54 @@
 
 void	proc_first_child(t_utils *utils, char **env)
 {
-	close(utils->fd_file2);
-	close(utils->fd_pipe[0]);
+	if (utils->fd_file1 == -1)
+	{
+		close_fd(utils);
+		exit(1);
+	}
 	if (dup2(utils->fd_file1, STDIN_FILENO) == -1)
 		perror("");
 	if (dup2(utils->fd_pipe[1], STDOUT_FILENO) == -1)
 		perror("");
-	close(utils->fd_pipe[1]);
-	close(utils->fd_file1);
+	close_fd(utils);
+	if (!utils->exec_path_cmd1)
+	{
+		close_fd(utils);
+		free_exec_path(utils);
+		exit(1);
+	}
 	if (execve(utils->exec_path_cmd1, utils->cmd1_options, env) == -1)
 	{
 		perror("");
+		free_exec_path(utils);
+		close_fd(utils);
 		exit(1);
 	}
 }
 
 void	proc_second_child(t_utils *utils, char **env)
 {
-	close(utils->fd_file1);
-	close(utils->fd_pipe[1]);
+	if (utils->fd_file2 == -1)
+	{
+		close_fd(utils);
+		exit(1);
+	}
 	if (dup2(utils->fd_file2, STDOUT_FILENO) == -1)
 		perror("");
 	if (dup2(utils->fd_pipe[0], STDIN_FILENO) == -1)
 		perror("");
-	close(utils->fd_pipe[0]);
-	close(utils->fd_file2);
+	close_fd(utils);
+	if (!utils->exec_path_cmd2)
+	{
+		close_fd(utils);
+		free_exec_path(utils);
+		exit(1);
+	}
 	if (execve(utils->exec_path_cmd2, utils->cmd2_options, env) == -1)
 	{
-		perror(utils->exec_path_cmd2);
+		perror("");
+		free_exec_path(utils);
+		close_fd(utils);
 		exit(1);
 	}
 }
@@ -63,10 +83,7 @@ void	execute_cmd_line(t_utils *utils, char **env)
 		return (perror(""));
 	if (second_child == 0)
 		proc_second_child(utils, env);
-	close(utils->fd_pipe[0]);
-	close(utils->fd_pipe[1]);
-	close(utils->fd_file1);
-	close(utils->fd_file2);
+	close_fd(utils);
 	waitpid(first_child, NULL, 0);
 	waitpid(second_child, &utils->status, 0);
 }
