@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 16:29:57 by sam               #+#    #+#             */
-/*   Updated: 2022/06/09 17:45:55 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/10 00:01:34 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_split(char	**tab)
 	int	i;
 
 	i = 0;
-	if (tab != NULL && tab[i])
+	if (tab != NULL)
 	{
 		while (tab[i])
 		{
@@ -51,13 +51,13 @@ int	free_exec_path(t_utils *utils)
 
 void	close_fd(t_utils *utils)
 {
-	if (utils->fd_file1 <= 0)
+	if (utils->fd_file1 != -1)
 		close(utils->fd_file1);
-	if (utils->fd_file2 <= 0)
+	if (utils->fd_file2 != -1)
 		close(utils->fd_file2);
-	if (utils->fd_pipe[0] <= 0)
+	if (utils->fd_pipe[0] != -1)
 		close(utils->fd_pipe[0]);
-	if (utils->fd_pipe[1])
+	if (utils->fd_pipe[1] != -1)
 		close(utils->fd_pipe[1]);
 }
 

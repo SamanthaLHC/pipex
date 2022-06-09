@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/09 17:47:55 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/10 00:11:30 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,7 @@ int	main(int ac, char **av, char **env)
 	get_fd(av, &utils);
 	handle_cmd1(&utils, av[2], env);
 	if (!utils.exec_path_cmd1)
-	{
-		// malloc 
-		// utils.exec_path_cmd1 = av[2];
 		print_error(utils.cmd1_options[0]);
-	}
 	handle_cmd2(&utils, av[3], env);
 	if (!utils.exec_path_cmd2)
 	{

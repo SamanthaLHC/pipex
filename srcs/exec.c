@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:08:09 by sam               #+#    #+#             */
-/*   Updated: 2022/06/09 17:45:24 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/10 00:10:33 by sam              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	proc_first_child(t_utils *utils, char **env)
 	if (utils->fd_file1 == -1)
 	{
 		close_fd(utils);
+		free_exec_path(utils);
 		exit(1);
 	}
 	if (dup2(utils->fd_file1, STDIN_FILENO) == -1)
@@ -44,6 +45,7 @@ void	proc_second_child(t_utils *utils, char **env)
 	if (utils->fd_file2 == -1)
 	{
 		close_fd(utils);
+		free_exec_path(utils);
 		exit(1);
 	}
 	if (dup2(utils->fd_file2, STDOUT_FILENO) == -1)
