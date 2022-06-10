@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:50:55 by sle-huec          #+#    #+#             */
-/*   Updated: 2022/06/10 00:11:30 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/10 16:04:19 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,11 @@ int	main(int ac, char **av, char **env)
 	}
 	get_fd(av, &utils);
 	handle_cmd1(&utils, av[2], env);
-	if (!utils.exec_path_cmd1)
+	if (!utils.exec_path_cmd1 && utils.fd_file1 != -1)
 		print_error(utils.cmd1_options[0]);
 	handle_cmd2(&utils, av[3], env);
-	if (!utils.exec_path_cmd2)
-	{
+	if (!utils.exec_path_cmd2 && utils.fd_file2 != -1)
 		print_error(utils.cmd2_options[0]);
-		return (free_exec_path(&utils));
-	}
 	execute_cmd_line(&utils, env);
 	free_exec_path(&utils);
 	return (utils.status);

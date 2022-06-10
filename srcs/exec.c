@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sam <sam@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:08:09 by sam               #+#    #+#             */
-/*   Updated: 2022/06/10 00:10:33 by sam              ###   ########.fr       */
+/*   Updated: 2022/06/10 15:57:45 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ void	proc_first_child(t_utils *utils, char **env)
 		free_exec_path(utils);
 		exit(1);
 	}
-	if (dup2(utils->fd_file1, STDIN_FILENO) == -1)
-		perror("");
-	if (dup2(utils->fd_pipe[1], STDOUT_FILENO) == -1)
-		perror("");
+	dup2(utils->fd_file1, STDIN_FILENO);
+	dup2(utils->fd_pipe[1], STDOUT_FILENO);
 	close_fd(utils);
 	if (!utils->exec_path_cmd1)
 	{
@@ -48,10 +46,8 @@ void	proc_second_child(t_utils *utils, char **env)
 		free_exec_path(utils);
 		exit(1);
 	}
-	if (dup2(utils->fd_file2, STDOUT_FILENO) == -1)
-		perror("");
-	if (dup2(utils->fd_pipe[0], STDIN_FILENO) == -1)
-		perror("");
+	dup2(utils->fd_file1, STDIN_FILENO);
+	dup2(utils->fd_pipe[1], STDOUT_FILENO);
 	close_fd(utils);
 	if (!utils->exec_path_cmd2)
 	{
