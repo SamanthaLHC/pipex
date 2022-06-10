@@ -6,7 +6,7 @@
 /*   By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:08:09 by sam               #+#    #+#             */
-/*   Updated: 2022/06/10 15:57:45 by sle-huec         ###   ########.fr       */
+/*   Updated: 2022/06/10 17:55:11 by sle-huec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	proc_second_child(t_utils *utils, char **env)
 		free_exec_path(utils);
 		exit(1);
 	}
-	dup2(utils->fd_file1, STDIN_FILENO);
-	dup2(utils->fd_pipe[1], STDOUT_FILENO);
+	dup2(utils->fd_pipe[0], STDIN_FILENO);
+	dup2(utils->fd_file2, STDOUT_FILENO);
 	close_fd(utils);
 	if (!utils->exec_path_cmd2)
 	{
