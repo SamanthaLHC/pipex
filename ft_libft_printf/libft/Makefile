@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sam <sam@student.42.fr>                    +#+  +:+       +#+         #
+#    By: sle-huec <sle-huec@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/24 14:03:48 by sle-huec          #+#    #+#              #
-#    Updated: 2022/04/21 14:39:22 by sam              ###   ########.fr        #
+#    Updated: 2022/06/11 16:02:31 by sle-huec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,7 @@ clean:
 fclean: clean
 	rm -rf ${NAME} 
 
-re: fclean all 
+re: fclean
+	make all
 
 .PHONY: all clean fclean re bonus
